@@ -1,12 +1,13 @@
 namespace RickAndMorty.Shared.Models;
+using System.ComponentModel.DataAnnotations;
 
 public class Character
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string Status { get; set; }
-    public string Species { get; set; }
-    public string Gender { get; set; }
-    public string Origin { get; set; }
-    public string Image { get; set; }
+    public required string Name { get; set; }
+    public required string Status { get; set; }
+    public required string Species { get; set; }
+    public required string Gender { get; set; }
+    public required string Origin { get; set; }
+    public required string Image { get; set; }
 }

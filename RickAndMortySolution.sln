@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RickAndMorty.WebApp", "Rick
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RickAndMorty.Shared", "RickAndMorty.Shared\RickAndMorty.Shared.csproj", "{28DB218E-5E54-4609-A9F2-1EDD4B0FD180}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RickAndMorty.Tests", "RickAndMorty.Tests\RickAndMorty.Tests.csproj", "{9DB7A1AC-B271-4D62-9D84-68384A4575D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{28DB218E-5E54-4609-A9F2-1EDD4B0FD180}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28DB218E-5E54-4609-A9F2-1EDD4B0FD180}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28DB218E-5E54-4609-A9F2-1EDD4B0FD180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DB7A1AC-B271-4D62-9D84-68384A4575D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DB7A1AC-B271-4D62-9D84-68384A4575D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DB7A1AC-B271-4D62-9D84-68384A4575D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DB7A1AC-B271-4D62-9D84-68384A4575D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

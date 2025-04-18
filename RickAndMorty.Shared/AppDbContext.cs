@@ -7,5 +7,5 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<Character> Characters => Set<Character>();
+    public DbSet<Character> Characters { get; set; }
 }

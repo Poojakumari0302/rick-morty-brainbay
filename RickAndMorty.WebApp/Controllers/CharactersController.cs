@@ -41,7 +41,8 @@ public class CharactersController : ControllerBase
         _dataAdded = true;
         return Ok(character);
     }
-
+    
+    // This endpoint returns only characters from a specific planet (e.g., "Earth", "Mars", etc.), based on the Origin field in the database.
     [HttpGet("origin/{planet}")]
     public async Task<IActionResult> GetByPlanet(string planet)
     {
