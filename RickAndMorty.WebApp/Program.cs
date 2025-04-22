@@ -9,8 +9,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // ✅ Add your AppDbContext registration here
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=characters.db"));
+builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+{
+    var env = serviceProvider.GetRequiredService<IWebHostEnvironment>();
+
+    if (env.EnvironmentName == "Testing")
+    {
+        options.UseInMemoryDatabase("TestDb");
+    }
+    else
+    {
+        options.UseSqlite("Data Source=characters.db");
+    }
+});
+
 
 var app = builder.Build();
 
@@ -26,3 +38,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

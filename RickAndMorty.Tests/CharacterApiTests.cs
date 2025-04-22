@@ -1,55 +1,52 @@
 // RickAndMorty.Tests/CharacterServiceTests.cs
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.InMemory;
 using RickAndMorty.Shared;
+using System.Net.Http.Json;
 using RickAndMorty.Shared.Models;
+using Moq;
 using RickAndMorty.WebApp.Controllers;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace RickAndMorty.Tests;
 
-public class CharacterApiTests
+public class CharactersApiTests : IClassFixture<CustomWebAppFactory>
 {
-    private readonly AppDbContext _dbContext;
+    private readonly HttpClient _client;
 
-    public CharacterApiTests()
+    public CharactersApiTests(CustomWebAppFactory factory)
     {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase")
-            .Options;
-        
-        _dbContext = new AppDbContext(options);
-        SeedTestData();
-    }
-
-    private void SeedTestData()
-    {
-        _dbContext.Database.EnsureDeleted();
-        _dbContext.Database.EnsureCreated();
-
-        var characters = new List<Character>
-        {
-            new() { Id = 1, Name = "Rick", Status = "Alive", Species = "Human", Gender = "Male", Origin = "Earth", Image= "https://rickandmortyapi.com/api/character/avatar/1.jpeg"},
-            new() { Id = 2, Name = "Morty", Status = "Alive", Species = "Human", Gender = "Male", Origin = "Earth", Image= "https://rickandmortyapi.com/api/character/avatar/2.jpeg"},
-            new() { Id = 3, Name = "Summer", Status = "Alive", Species = "Human", Gender = "Female", Origin = "Earth", Image= "https://rickandmortyapi.com/api/character/avatar/3.jpeg"},
-            new() { Id = 4, Name = "Adjudicator Rick", Status = "Dead", Species = "Human", Gender = "Male", Origin = "unknown", Image= "https://rickandmortyapi.com/api/character/avatar/8.jpeg"}
-        };
-
-        _dbContext.Characters.AddRange(characters);
-        _dbContext.SaveChanges();
+        _client = factory.CreateClient();
     }
 
     [Fact]
-    public async Task Index_ReturnsOnlyAliveCharacters()
+    public async Task GetCharacters_ReturnsOk_WithFromDatabaseHeader()
     {
-        var controller = new CharactersController(_dbContext);
-        var result = await controller.Get() as ViewResult;
-        var model = result?.Model as List<Character>;
+        var response = await _client.GetAsync("/api/characters");
 
-        Assert.NotNull(model);
-        Assert.Equal(3, model.Count);
-        Assert.DoesNotContain(model, c => c.Status != "Alive");
+        response.EnsureSuccessStatusCode();
+        Assert.True(response.Headers.Contains("from-database"));
     }
 
+    [Fact]
+    public async Task PostCharacter_AddsCharacterSuccessfully()
+    {
+        var newCharacter = new Character
+        {
+            Name = "Test Rick",
+            Status = "Alive",
+            Species = "Human",
+            Gender = "Male",
+            Origin = "Test Planet",
+            Image = "http://test/image.png"
+        };
 
+        var result = await _client.PostAsJsonAsync("/api/characters", newCharacter);
+        result.EnsureSuccessStatusCode();
+
+        var getResponse = await _client.GetFromJsonAsync<List<Character>>("/api/characters");
+        Assert.NotNull(getResponse);
+        Assert.Contains(getResponse, c => c.Name == "Test Rick");
+
+    }
 }

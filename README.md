@@ -9,10 +9,13 @@ This repository includes:
 
 ## Projects
 
-| Project                 | Description |
-|------------------------|-------------|
+| Project                   | Description |
+|--------------------------|-------------|
 | `RickAndMorty.ConsoleApp` | Console app to fetch characters from [Rick and Morty API](https://rickandmortyapi.com/api/character) and store "Alive" ones in the database. |
 | `RickAndMorty.WebApp`     | ASP.NET Web API to expose character data and allow adding/filtering characters. |
 | `RickAndMorty.Shared`     | Shared project containing models and DbContext. |
+| `RickAndMorty.Tests`      | Test project using xUnit and InMemory EF Core to test the Web API endpoints and database integration. |
+
+
 
 ---
